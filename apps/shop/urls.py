@@ -20,7 +20,10 @@ payments_router.register(r"payments", views.PaymentViewSet)
 urlpatterns = [
     url(r"^buyer/me/$", views.CurrentBuyerView.as_view(), name="buyer-me"),
     url(
-        r"^buyer/seller/me/$", views.CurrentSellerView.as_view(), name="seller-me"
+        r"^buyer/seller/$", views.CurrentSellerView.as_view(), name="seller-me"
+    ),
+    url(
+        r"^stores/me/$", views.CurrentStoreView.as_view(), name="seller-me"
     ),
 
     url(r"^", include(store_router.urls)),

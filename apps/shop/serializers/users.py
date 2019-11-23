@@ -24,7 +24,7 @@ class SellerSerializer(serializers.ModelSerializer):
             "name",
             "phone",
             "buyer_type",
-            "photo",
+            "photo"
         )
 
     def create(self, validated_data):
@@ -68,9 +68,10 @@ class BuyerSerializer(DefaultUserSerializer):
 
     phone = PhoneNumberField()
     buyer_type = serializers.ChoiceField(choices=choices.BuyerTypeChoices.BUYER_TYPE_CHOICES)
+    is_seller = serializers.BooleanField()
 
     class Meta(DefaultUserSerializer.Meta):
-        fields = DefaultUserSerializer.Meta.fields + ("seller", "address", "phone", "buyer_type")
+        fields = DefaultUserSerializer.Meta.fields + ("seller", "address", "phone", "buyer_type", "is_seller")
 
     def create(self, validated_data):
         address = validated_data.pop("address")
@@ -92,8 +93,6 @@ class BuyerSerializer(DefaultUserSerializer):
                 setattr(instance, attr, value)
 
             if address is not None:
-                if instance.address:
-                    instance.address.delete()
                 address = self._create_address(address)
                 instance.address = address
 

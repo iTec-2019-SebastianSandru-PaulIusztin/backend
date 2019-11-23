@@ -43,7 +43,7 @@ class EnvVarsValidator(Schema):
     SERVICING_CORS_ORIGIN_ALLOW_ALL = fields.Boolean(missing=True)
     SERVICING_STATIC_ROOT = fields.String(missing="/var/www/static/")
     SERVICING_MEDIA_ROOT = fields.String(missing="/var/www/media/")
-    SERVICING_WEB_APP_URL = fields.String(missing="127.0.0.1:4000")
+    SERVICING_WEB_APP_URL = fields.String(missing="127.0.0.1:3000")
     SERVICING_TIMEZONE = fields.String(missing="UTC")
 
     SERVICING_DB_HOST = fields.String(missing="127.0.0.1")
@@ -262,7 +262,7 @@ DEFAULT_FROM_EMAIL = ENV_VARS["SERVICING_SMTP_FROM_EMAIL"]
 # Configure web app urls
 WEB_APP_BASE_URL = ENV_VARS["SERVICING_WEB_APP_URL"]
 WEB_APP_ROUTES = {
-    "account_activation": WEB_APP_BASE_URL + "/auth/login/{key}"
+    "account_activation": WEB_APP_BASE_URL + "/auth/register/{key}"
 }
 
 # Configure aws

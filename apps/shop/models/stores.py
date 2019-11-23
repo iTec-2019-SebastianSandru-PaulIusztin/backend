@@ -5,7 +5,7 @@ from apps.shop.models.users import Seller
 
 
 class Store(models.Model):
-    seller = models.ForeignKey(Seller, on_delete=models.CASCADE, related_name='stores')
+    seller = models.OneToOneField(Seller, on_delete=models.CASCADE, related_name='store')
 
     name = models.CharField(max_length=64)
     point = PointField()

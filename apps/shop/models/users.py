@@ -31,9 +31,17 @@ class Buyer(AbstractUser):
     class Meta:
         db_table = "authentication_user"
 
+    @property
+    def is_seller(self):
+        try:
+            self.seller
+            return True
+        except Buyer.seller.RelatedObjectDoesNotExist:
+            return False
+
 
 class Seller(models.Model):
-    buyer = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    buyer = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='seller')
     address = models.ForeignKey(Address, on_delete=models.CASCADE, related_name='seller', null=True)
 
     name = models.CharField(max_length=100)

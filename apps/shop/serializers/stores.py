@@ -3,6 +3,7 @@ from django.db import transaction
 from rest_framework import serializers
 
 from apps.shop.models import Store, Seller
+from apps.shop.serializers import ProductSerializer
 
 
 class StoreSerializer(serializers.ModelSerializer):
@@ -10,10 +11,11 @@ class StoreSerializer(serializers.ModelSerializer):
     lng = serializers.DecimalField(max_digits=50, decimal_places=40)
 
     seller_id = serializers.PrimaryKeyRelatedField(queryset=Seller.objects.all(), source='seller')
+    products = ProductSerializer(many=True, read_only=True)
 
     class Meta:
         model = Store
-        fields = ("name", "lat", "lng", "seller_id")
+        fields = ("name", "lat", "lng", "seller_id", "products")
 
     def create(self, validated_data):
         lat = validated_data.pop('lat')

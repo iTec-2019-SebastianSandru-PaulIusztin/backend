@@ -29,19 +29,20 @@ class PaymentProductSerializer(serializers.ModelSerializer):
         fields = ("counter", "product", "product_id")
 
 
-class PaymentSerializer(serializers.Serializer):
+class PaymentSerializer(serializers.ModelSerializer):
     optional = serializers.CharField(required=False)
     status = serializers.CharField(read_only=True)
 
-    products = PaymentProductSerializer(many=True)
+    payment_products = PaymentProductSerializer(many=True)
+    shipment = ShipmentSerializer(read_only=True, allow_null=True)
 
     class Meta:
         model = models.Payment
-        fields = ("status", "optional", "products")
-        read_only_fields = ("id", "status")
+        fields = ("status", "optional", "payment_products", "shipment", "has_shipment")
+        read_only_fields = ("id", "status", "shipment", "has_shipment")
 
     def create(self, validated_data):
-        products = validated_data.pop('products')
+        products = validated_data.pop('payment_products')
 
         with transaction.atomic():
 

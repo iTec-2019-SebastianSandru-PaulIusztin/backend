@@ -9,7 +9,7 @@ class SellerAdmin(admin.ModelAdmin):
 
 
 class ProductPhotoAdmin(admin.StackedInline):
-    model = models.ProductImage
+    model = models.ProductPhoto
     extra = 0
 
 

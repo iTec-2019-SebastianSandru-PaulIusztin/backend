@@ -34,8 +34,6 @@ class CurrentSellerView(CreateRetrieveUpdateDestroyAPIView):
         except models.Buyer.seller.RelatedObjectDoesNotExist:
             raise Http404()
 
-        self.get_service().on_retrieve(seller)
-
         return seller
 
 

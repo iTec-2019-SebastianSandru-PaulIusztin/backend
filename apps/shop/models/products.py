@@ -90,6 +90,6 @@ class Product(models.Model):
         return self.category.increment_counter()
 
 
-class ProductImage(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
+class ProductPhoto(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='photos')
     photo = models.ImageField(upload_to=get_photos_path_creator(field_name="photo"), blank=True, null=True)

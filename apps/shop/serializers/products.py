@@ -5,7 +5,7 @@ from django.db.models import Model
 from rest_framework import serializers
 
 from apps.common.utils import get_or_create_model
-from apps.shop.models import ProductSubcategory, ProductImage, Product, Store
+from apps.shop.models import ProductSubcategory, ProductPhoto, Product, Store
 from apps.shop.models import ProductCategory
 
 
@@ -35,7 +35,7 @@ class ProductSubcategorySerializer(serializers.ModelSerializer):
 
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductImage
+        model = ProductPhoto
         fields = (
             "photo",
         )

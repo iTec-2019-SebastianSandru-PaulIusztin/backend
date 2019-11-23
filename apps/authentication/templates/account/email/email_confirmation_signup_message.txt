@@ -1,0 +1,17 @@
+{% load account %}{% user_display user as user_display %}{% load i18n %}
+{% load attribute_loader %}
+{% settings_value "PROJECT_NAME" as project_name %}
+
+{% autoescape off %}
+{% blocktrans %}
+Hello from {{project_name}}!
+
+Please confirm your email address.
+
+To do this, please go to {{link}}
+{% endblocktrans %}
+{% endautoescape %}
+
+{% blocktrans %}
+Thank you!
+{% endblocktrans %}

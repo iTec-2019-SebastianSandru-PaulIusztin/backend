@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+  db:
+    image: mdillon/postgis
+    container_name: db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "shop_db"
+      POSTGRES_USER: "shop_user"
+      POSTGRES_PASSWORD: "shop_password"
+
+  redis:
+    image: redis:5-alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  celery:
+    build: .
+    container_name: celery
+    command: celery -A main worker -l info
+    restart: unless-stopped
+    depends_on:
+      - db
+      - redis
+
+  celery-beat:
+    build: .
+    container_name: celery_beat
+    command: celery -A main beat -l info
+    restart: unless-stopped
+    depends_on:
+      - db
+      - redis
+
+  web:
+    build: .
+    container_name: web
+    ports:
+      - "8888:80"
+    links:
+      - db
+      - redis
+    depends_on:
+      - db
+      - redis
+    environment:
+      SERVICING_DB_HOST: "db"
+      SERVICING_DB_PORT: "5432"

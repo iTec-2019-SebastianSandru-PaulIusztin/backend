@@ -39,7 +39,7 @@ class ProductViewSet(ServiceMixin, ModelViewSet):
     permission_classes = ()
     filter_backends = (SearchFilterBackend, DjangoFilterBackend)
     filter_class = filters.ProductFilter
-    search_fields = ("subcategories__name", "store__seller__name")
+    search_fields = ("subcategories__name", "store__seller__name", "price")
 
 
 class CurrentShopCartView(CreateRetrieveUpdateDestroyAPIView):

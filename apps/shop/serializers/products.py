@@ -72,7 +72,7 @@ class ProductSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         category = validated_data.pop('category')
         subcategories = validated_data.pop('subcategories')
-        photos = validated_data.pop('photos')
+        photos = validated_data.pop('photos', [])
 
         store = self.context['request'].user.seller.store
 

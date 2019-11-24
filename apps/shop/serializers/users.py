@@ -73,7 +73,7 @@ class BuyerSerializer(DefaultUserSerializer):
     is_seller = serializers.BooleanField()
 
     class Meta(DefaultUserSerializer.Meta):
-        fields = DefaultUserSerializer.Meta.fields + ("seller", "address", "phone", "buyer_type", "is_seller")
+        fields = DefaultUserSerializer.Meta.fields + ("seller", "address", "phone", "buyer_type", "is_seller", )
 
     def create(self, validated_data):
         address = validated_data.pop("address")

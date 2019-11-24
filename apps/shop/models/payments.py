@@ -2,10 +2,11 @@ from django.core.validators import MinValueValidator
 from django.db import models
 
 from apps.shop import choices
-from apps.shop.models import Product
+from apps.shop.models import Product, Buyer
 
 
 class Payment(models.Model):
+    buyer = models.ForeignKey(Buyer, on_delete=models.CASCADE, related_name='payment')
     status = models.CharField(
         max_length=16,
         choices=choices.PaymentChoices.PAYMENT_CHOICES,

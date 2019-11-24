@@ -43,18 +43,26 @@ class PaymentSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         products = validated_data.pop('payment_products')
+        buyer = self.context['request'].user
 
         with transaction.atomic():
+            validated_data.update({'buyer': buyer})
 
             payment = models.Payment(**validated_data)
             payment.save()
 
             self._get_or_create_products(payment, products)
 
+            payment.buyer.shop_cart.items.all().delete()
+
         return payment
 
     def _get_or_create_products(self, payment: Model, products: List[dict]):
         for payment_product in products:
+            product = payment_product['product']
+            product.counter = product.counter - payment_product['counter']
+            product.save()
+
             payment_product['product_id'] = payment_product['product'].id
             get_or_create_model(
                 payment_product,

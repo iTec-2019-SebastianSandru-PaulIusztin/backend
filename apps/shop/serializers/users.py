@@ -1,3 +1,5 @@
+from typing import List
+
 from django.db import transaction
 from django.db.models import Model
 from rest_framework import serializers
@@ -20,6 +22,7 @@ class SellerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Seller
         fields = (
+            "id",
             "address",
             "name",
             "phone",
@@ -50,7 +53,6 @@ class SellerSerializer(serializers.ModelSerializer):
                 setattr(instance, attr, value)
 
             if address is not None:
-                instance.address.delete()
                 address = self._create_address(address)
                 instance.address = address
 

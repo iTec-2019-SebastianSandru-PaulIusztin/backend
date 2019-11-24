@@ -4,6 +4,7 @@ from django.db.models import F
 
 from apps.authentication.utils import get_photos_path_creator
 from apps.shop import choices
+from apps.shop.models.users import Buyer
 from apps.shop.models.stores import Store
 
 
@@ -79,6 +80,22 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     description = models.TextField(max_length=512)
 
+    @property
+    def seller(self):
+        return self.store.seller
+
+    @property
+    def store_name(self):
+        return self.store.name
+
+    @property
+    def lat(self):
+        return self.store.lat
+
+    @property
+    def lng(self):
+        return self.store.lng
+
     def increment_subcategories(self, subcategories_names=None):
         subcategories = self.subcategories
         if subcategories_names:
@@ -93,3 +110,12 @@ class Product(models.Model):
 class ProductPhoto(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='photos')
     photo = models.ImageField(upload_to=get_photos_path_creator(field_name="photo"), blank=True, null=True)
+
+
+class ShopCart(models.Model):
+    buyer = models.OneToOneField(Buyer, on_delete=models.CASCADE, related_name='shop_cart')
+
+
+class ShopCartItem(models.Model):
+    shop_cart = models.ForeignKey(ShopCart, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='items')

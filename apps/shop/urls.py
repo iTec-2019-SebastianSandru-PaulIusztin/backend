@@ -23,12 +23,17 @@ urlpatterns = [
         r"^buyer/seller/$", views.CurrentSellerView.as_view(), name="seller-me"
     ),
     url(
-        r"^stores/me/$", views.CurrentStoreView.as_view(), name="seller-me"
+        r"^buyer/shop-cart/$", views.CurrentShopCartView.as_view(), name="shop-cart-me"
+    ),
+    url(
+        r"^stores/me/$", views.CurrentStoreView.as_view(), name="stores-me"
+    ),
+    url(
+        r"^sellers/(?P<pk>\d+)/$", views.SellerStoreView.as_view(), name="seller-store"
     ),
 
     url(r"^", include(store_router.urls)),
     url(r"^", include(product_router.urls)),
-    url(r"^", include(seller_router.urls)),
     url(r"^", include(category_router.urls)),
     url(r"^", include(subcategory_router.urls)),
     url(r"^", include(payments_router.urls)),

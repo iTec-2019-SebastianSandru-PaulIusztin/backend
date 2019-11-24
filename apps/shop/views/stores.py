@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from rest_framework.viewsets import ModelViewSet
 
@@ -30,3 +31,16 @@ class CurrentStoreView(CreateRetrieveUpdateDestroyAPIView):
             raise Http404()
 
         return store
+
+
+class SellerStoreView(CreateRetrieveUpdateDestroyAPIView):
+    queryset = models.Seller.objects.all()
+    serializer_class = serializers.StoreSerializer
+
+    def get_object(self):
+        seller = super().get_object()
+
+        try:
+            return seller.store
+        except ObjectDoesNotExist:
+            raise Http404
